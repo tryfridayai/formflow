@@ -59,6 +59,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+      </head>
       <body
         className={`${inter.variable} ${geistMono.variable} font-sans antialiased`}
       >

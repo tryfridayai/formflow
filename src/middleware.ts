@@ -12,7 +12,19 @@ const PROTECTED_ROUTES = ["/dashboard", "/forms", "/settings"];
 const AUTH_ROUTES = ["/login", "/signup"];
 
 export async function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, searchParams } = request.nextUrl;
+
+  // Handle Supabase auth confirmation code at root URL
+  // Supabase sends email confirmation links to /?code=xxx
+  // Redirect them to /auth/callback?code=xxx for proper handling
+  const code = searchParams.get('code');
+  if (code && pathname === '/') {
+    const callbackUrl = new URL('/auth/callback', request.url);
+    callbackUrl.searchParams.set('code', code);
+    const next = searchParams.get('next');
+    if (next) callbackUrl.searchParams.set('next', next);
+    return NextResponse.redirect(callbackUrl);
+  }
 
   // Create the Supabase middleware client which handles session refresh
   const { supabase, response } = createMiddlewareClient(request);

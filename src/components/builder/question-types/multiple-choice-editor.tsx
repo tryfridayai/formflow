@@ -23,35 +23,52 @@ export function MultipleChoiceEditor({
   const dragItem = useRef<number | null>(null);
   const dragOverItem = useRef<number | null>(null);
 
+  // Support both flat and nested (config) property structures
+  const config = (properties as unknown as Record<string, unknown>).config as MultipleChoiceProperties | undefined;
+  const choices: ChoiceOption[] = properties.choices ?? config?.choices ?? [
+    { id: 'choice-1', label: 'Option 1', value: 'option_1' },
+    { id: 'choice-2', label: 'Option 2', value: 'option_2' },
+  ];
+  const allowMultiple = properties.allow_multiple ?? config?.allow_multiple ?? false;
+  const otherOption = properties.other_option ?? config?.other_option ?? false;
+  const randomize = properties.randomize ?? config?.randomize ?? false;
+
+  const updateProps = useCallback(
+    (patch: Partial<MultipleChoiceProperties>) => {
+      onChange({ ...properties, ...patch });
+    },
+    [properties, onChange]
+  );
+
   const handleChoiceChange = useCallback(
     (index: number, label: string) => {
-      const updated = [...properties.choices];
+      const updated = [...choices];
       updated[index] = {
         ...updated[index],
         label,
         value: label.toLowerCase().replace(/\s+/g, '_'),
       };
-      onChange({ ...properties, choices: updated });
+      updateProps({ choices: updated });
     },
-    [properties, onChange]
+    [choices, updateProps]
   );
 
   const handleAddChoice = useCallback(() => {
     const newChoice: ChoiceOption = {
       id: uuidv4(),
-      label: `Option ${properties.choices.length + 1}`,
-      value: `option_${properties.choices.length + 1}`,
+      label: `Option ${choices.length + 1}`,
+      value: `option_${choices.length + 1}`,
     };
-    onChange({ ...properties, choices: [...properties.choices, newChoice] });
-  }, [properties, onChange]);
+    updateProps({ choices: [...choices, newChoice] });
+  }, [choices, updateProps]);
 
   const handleRemoveChoice = useCallback(
     (index: number) => {
-      if (properties.choices.length <= 1) return;
-      const updated = properties.choices.filter((_, i) => i !== index);
-      onChange({ ...properties, choices: updated });
+      if (choices.length <= 1) return;
+      const updated = choices.filter((_, i) => i !== index);
+      updateProps({ choices: updated });
     },
-    [properties, onChange]
+    [choices, updateProps]
   );
 
   const handleDragStart = useCallback((_e: React.DragEvent, index: number) => {
@@ -69,15 +86,15 @@ export function MultipleChoiceEditor({
       if (dragItem.current === null || dragOverItem.current === null) return;
       if (dragItem.current === dragOverItem.current) return;
 
-      const reordered = [...properties.choices];
+      const reordered = [...choices];
       const [removed] = reordered.splice(dragItem.current, 1);
       reordered.splice(dragOverItem.current, 0, removed);
 
-      onChange({ ...properties, choices: reordered });
+      updateProps({ choices: reordered });
       dragItem.current = null;
       dragOverItem.current = null;
     },
-    [properties, onChange]
+    [choices, updateProps]
   );
 
   return (
@@ -87,7 +104,7 @@ export function MultipleChoiceEditor({
           Choices
         </label>
         <div className="space-y-2">
-          {properties.choices.map((choice, index) => (
+          {choices.map((choice, index) => (
             <div
               key={choice.id}
               draggable
@@ -117,7 +134,7 @@ export function MultipleChoiceEditor({
               <button
                 type="button"
                 onClick={() => handleRemoveChoice(index)}
-                disabled={properties.choices.length <= 1}
+                disabled={choices.length <= 1}
                 className={cn(
                   'rounded-md p-1 text-gray-400 opacity-0 transition-all duration-150',
                   'hover:bg-red-50 hover:text-red-600',
@@ -146,26 +163,20 @@ export function MultipleChoiceEditor({
 
       <div className="space-y-3 border-t border-gray-200 pt-4 dark:border-gray-800">
         <Switch
-          checked={properties.allow_multiple}
-          onCheckedChange={(checked) =>
-            onChange({ ...properties, allow_multiple: checked })
-          }
+          checked={allowMultiple}
+          onCheckedChange={(checked) => updateProps({ allow_multiple: checked })}
           label="Allow multiple selections"
         />
 
         <Switch
-          checked={properties.other_option}
-          onCheckedChange={(checked) =>
-            onChange({ ...properties, other_option: checked })
-          }
+          checked={otherOption}
+          onCheckedChange={(checked) => updateProps({ other_option: checked })}
           label='Include "Other" option'
         />
 
         <Switch
-          checked={properties.randomize}
-          onCheckedChange={(checked) =>
-            onChange({ ...properties, randomize: checked })
-          }
+          checked={randomize}
+          onCheckedChange={(checked) => updateProps({ randomize: checked })}
           label="Randomize order"
         />
       </div>

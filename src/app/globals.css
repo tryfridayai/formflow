@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Background & Surface */
+    --background: 0 0% 100%;
+    --surface: 0 0% 98%;
+    --surface-hover: 0 0% 96%;
+    --surface-active: 0 0% 94%;
+
+    /* Foreground & Text */
+    --foreground: 0 0% 9%;
+    --foreground-muted: 0 0% 45%;
+    --foreground-subtle: 0 0% 64%;
+
+    /* Borders */
+    --border: 0 0% 90%;
+    --border-hover: 0 0% 80%;
+
+    /* Primary (indigo-inspired) */
+    --primary: 238 76% 55%;
+    --primary-hover: 238 76% 48%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: 0 0% 96%;
+    --secondary-hover: 0 0% 90%;
+    --secondary-foreground: 0 0% 9%;
+
+    /* Accent */
+    --accent: 238 76% 97%;
+    --accent-hover: 238 76% 94%;
+    --accent-foreground: 238 76% 55%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-hover: 0 84% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Input & Ring */
+    --input: 0 0% 90%;
+    --ring: 238 76% 55%;
+
+    /* Radius */
+    --radius: 0.5rem;
+
+    /* Sidebar (for dashboard layout) */
+    --sidebar: 0 0% 98%;
+    --sidebar-foreground: 0 0% 30%;
+    --sidebar-border: 0 0% 92%;
+    --sidebar-hover: 0 0% 94%;
+
+    /* Card */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --card-border: 0 0% 92%;
+  }
+
+  .dark {
+    /* Background & Surface */
+    --background: 0 0% 6%;
+    --surface: 0 0% 9%;
+    --surface-hover: 0 0% 12%;
+    --surface-active: 0 0% 15%;
+
+    /* Foreground & Text */
+    --foreground: 0 0% 95%;
+    --foreground-muted: 0 0% 60%;
+    --foreground-subtle: 0 0% 40%;
+
+    /* Borders */
+    --border: 0 0% 18%;
+    --border-hover: 0 0% 28%;
+
+    /* Primary */
+    --primary: 238 76% 62%;
+    --primary-hover: 238 76% 70%;
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary */
+    --secondary: 0 0% 14%;
+    --secondary-hover: 0 0% 20%;
+    --secondary-foreground: 0 0% 95%;
+
+    /* Accent */
+    --accent: 238 40% 15%;
+    --accent-hover: 238 40% 20%;
+    --accent-foreground: 238 76% 72%;
+
+    /* Destructive */
+    --destructive: 0 72% 51%;
+    --destructive-hover: 0 72% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Success */
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+
+    /* Warning */
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    /* Input & Ring */
+    --input: 0 0% 18%;
+    --ring: 238 76% 62%;
+
+    /* Sidebar */
+    --sidebar: 0 0% 8%;
+    --sidebar-foreground: 0 0% 70%;
+    --sidebar-border: 0 0% 14%;
+    --sidebar-hover: 0 0% 12%;
+
+    /* Card */
+    --card: 0 0% 9%;
+    --card-foreground: 0 0% 95%;
+    --card-border: 0 0% 16%;
+  }
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  /* Smooth scrolling for the form renderer */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 3px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--border-hover));
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

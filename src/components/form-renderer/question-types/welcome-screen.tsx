@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import type { Question, WelcomeScreenProperties } from '@/lib/types/form';
 import { useFormSubmission } from '@/lib/store/form-submission-context';
+import { normalizeTheme } from '@/lib/utils/theme';
 
 interface WelcomeScreenProps {
   question: Question;
@@ -11,9 +12,10 @@ interface WelcomeScreenProps {
 export function WelcomeScreen({ question }: WelcomeScreenProps) {
   const { goToNext, form } = useFormSubmission();
   const config = question.properties.config as WelcomeScreenProperties;
-  const questionColor = form.theme?.question_color ?? '#ffffff';
-  const primaryColor = form.theme?.button_color ?? '#4f46e5';
-  const buttonTextColor = form.theme?.button_text_color ?? '#ffffff';
+  const theme = normalizeTheme(form.theme);
+  const questionColor = theme.textColor;
+  const primaryColor = theme.primaryColor;
+  const buttonTextColor = '#ffffff';
 
   return (
     <div className="flex flex-col items-center justify-center gap-8 text-center">

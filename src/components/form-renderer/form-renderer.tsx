@@ -8,6 +8,7 @@ import {
 } from '@/lib/store/form-submission-context';
 import { useKeyboardNavigation } from '@/lib/hooks/use-keyboard-navigation';
 import type { Form } from '@/lib/types/form';
+import { normalizeTheme } from '@/lib/utils/theme';
 import { ProgressBar } from './progress-bar';
 import { NavigationControls } from './navigation-controls';
 import { QuestionRenderer } from './question-renderer';
@@ -46,11 +47,10 @@ function FormRendererInner() {
   } = useFormSubmission();
 
   /* ------------- Theme ------------- */
-  const theme = form.theme;
-  const bgColor = theme?.background_color ?? '#1a1a2e';
-  const bgImage = theme?.background_image_url;
-  const bgOpacity = theme?.background_opacity ?? 1;
-  const fontFamily = theme?.font_family ?? 'inherit';
+  const theme = normalizeTheme(form.theme);
+  const bgColor = theme.backgroundColor;
+  const bgImage = theme.backgroundImage;
+  const fontFamily = theme.fontFamily;
 
   /* ------------- Question numbering (skip welcome/end screens) ------------- */
   const questionNumberMap = useMemo(() => {
@@ -122,7 +122,7 @@ function FormRendererInner() {
             className="absolute inset-0 bg-cover bg-center bg-no-repeat"
             style={{
               backgroundImage: `url(${bgImage})`,
-              opacity: bgOpacity,
+              opacity: 1,
             }}
           />
         )}

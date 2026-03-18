@@ -34,7 +34,14 @@ export function useQuestions({
       setLoading(true);
       setError(null);
 
-      const insertIndex = orderIndex ?? questions.length;
+      // Insert before end_screen if no explicit index given
+      let insertIndex: number;
+      if (orderIndex !== undefined) {
+        insertIndex = orderIndex;
+      } else {
+        const endScreenIndex = questions.findIndex((q) => q.type === 'end_screen');
+        insertIndex = endScreenIndex !== -1 ? endScreenIndex : questions.length;
+      }
 
       // Optimistic update: insert a placeholder
       const optimisticId = `optimistic-${Date.now()}`;

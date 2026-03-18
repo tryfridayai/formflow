@@ -168,7 +168,8 @@ export function getNextQuestionId(
   const currentQuestion = sorted[currentIndex];
 
   // Evaluate logic rules for the current question
-  for (const rule of currentQuestion.logic_rules) {
+  const rules = currentQuestion.logic_rules ?? [];
+  for (const rule of rules) {
     // The rule checks the answer for its associated question_id (which may be the current question)
     const answerValue = answers[rule.question_id];
 
@@ -232,7 +233,7 @@ export function validateLogicRules(questions: Question[]): string[] {
   const questionIds = new Set(questions.map((q) => q.id));
 
   for (const question of questions) {
-    for (const rule of question.logic_rules) {
+    for (const rule of (question.logic_rules ?? [])) {
       if (!questionIds.has(rule.question_id)) {
         errors.push(
           `Rule "${rule.id}" on question "${question.title}" references non-existent source question "${rule.question_id}".`

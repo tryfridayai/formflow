@@ -6,7 +6,6 @@ import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { generateSlug } from '@/lib/utils/slug';
-import { DEFAULT_FORM_SETTINGS } from '@/lib/utils/constants';
 import type { Form } from '@/lib/types/form';
 
 const createFormSchema = z.object({
@@ -44,7 +43,17 @@ export async function createForm(title: string) {
     title: parsed.data.title,
     slug,
     status: 'draft',
-    settings: { ...DEFAULT_FORM_SETTINGS },
+    theme: {
+      primaryColor: '#6366f1',
+      backgroundColor: '#ffffff',
+      textColor: '#111827',
+      fontFamily: 'Inter',
+      backgroundImage: null,
+      darkMode: false,
+      borderRadius: 'md',
+    },
+    show_progress_bar: true,
+    allow_multiple_submissions: false,
     response_count: 0,
     created_at: now,
     updated_at: now,
@@ -125,12 +134,14 @@ export async function updateForm(formId: string, data: Partial<Form>) {
   }
 
   // Only allow updating certain fields
-  const allowedFields: (keyof Form)[] = [
+  const allowedFields: string[] = [
     'title',
     'description',
-    'settings',
-    'theme_id',
-    'custom_closed_message' as keyof Form,
+    'theme',
+    'show_progress_bar',
+    'allow_multiple_submissions',
+    'close_message',
+    'redirect_url',
   ];
 
   const updateData: Record<string, unknown> = {
@@ -139,7 +150,7 @@ export async function updateForm(formId: string, data: Partial<Form>) {
 
   for (const key of allowedFields) {
     if (key in data) {
-      updateData[key] = data[key as keyof typeof data];
+      updateData[key] = (data as Record<string, unknown>)[key];
     }
   }
 
@@ -237,7 +248,6 @@ export async function publishForm(formId: string) {
     .from('forms')
     .update({
       status: 'published',
-      published_at: now,
       updated_at: now,
     })
     .eq('id', formId)
@@ -275,7 +285,6 @@ export async function closeForm(formId: string) {
     .from('forms')
     .update({
       status: 'closed',
-      closed_at: now,
       updated_at: now,
     })
     .eq('id', formId)
@@ -352,8 +361,9 @@ export async function duplicateForm(formId: string) {
     description: originalForm.description,
     slug,
     status: 'draft',
-    theme_id: originalForm.theme_id,
-    settings: originalForm.settings,
+    theme: originalForm.theme,
+    show_progress_bar: originalForm.show_progress_bar,
+    allow_multiple_submissions: originalForm.allow_multiple_submissions,
     response_count: 0,
     created_at: now,
     updated_at: now,
@@ -405,7 +415,6 @@ export async function duplicateForm(formId: string) {
         : null,
       jump_to_end: rule.jump_to_end,
       created_at: now,
-      updated_at: now,
     }));
 
     const { error: insertRulesError } = await supabase

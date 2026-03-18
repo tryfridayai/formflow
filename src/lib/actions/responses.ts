@@ -87,6 +87,7 @@ export async function submitResponse(
     form_id: formId,
     started_at: metadata?.started_at || now,
     completed_at: now,
+    is_complete: true,
     metadata: metadata || {},
     created_at: now,
   });

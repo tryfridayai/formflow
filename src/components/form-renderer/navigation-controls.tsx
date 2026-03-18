@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { ChevronUp, ChevronDown, Check } from 'lucide-react';
 import { cn } from '@/lib/utils/cn';
 import { useFormSubmission } from '@/lib/store/form-submission-context';
+import { normalizeTheme } from '@/lib/utils/theme';
 
 export function NavigationControls() {
   const {
@@ -17,8 +18,9 @@ export function NavigationControls() {
     form,
   } = useFormSubmission();
 
-  const primaryColor = form.theme?.button_color ?? '#4f46e5';
-  const buttonTextColor = form.theme?.button_text_color ?? '#ffffff';
+  const theme = normalizeTheme(form.theme);
+  const primaryColor = theme.primaryColor;
+  const buttonTextColor = '#ffffff';
 
   // Don't show controls on welcome or end screens
   if (

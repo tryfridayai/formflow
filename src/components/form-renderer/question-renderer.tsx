@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import type { Question } from '@/lib/types/form';
 import { useFormSubmission } from '@/lib/store/form-submission-context';
+import { normalizeTheme } from '@/lib/utils/theme';
 import { ShortTextField } from './question-types/short-text-field';
 import { LongTextField } from './question-types/long-text-field';
 import { EmailField } from './question-types/email-field';
@@ -29,9 +30,10 @@ export function QuestionRenderer({
   questionNumber,
 }: QuestionRendererProps) {
   const { form, state, setAnswer, goToNext } = useFormSubmission();
-  const questionColor = form.theme?.question_color ?? '#ffffff';
-  const answerColor = form.theme?.answer_color ?? '#4f46e5';
-  const showNumbers = form.settings.show_question_numbers;
+  const theme = normalizeTheme(form.theme);
+  const questionColor = theme.textColor;
+  const answerColor = theme.primaryColor;
+  const showNumbers = (form as unknown as Record<string, unknown>).show_question_numbers !== false;
 
   const currentValue = state.answers[question.id];
 

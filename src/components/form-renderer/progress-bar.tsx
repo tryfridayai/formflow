@@ -2,12 +2,15 @@
 
 import { motion } from 'framer-motion';
 import { useFormSubmission } from '@/lib/store/form-submission-context';
+import { normalizeTheme } from '@/lib/utils/theme';
 
 export function ProgressBar() {
   const { progress, form } = useFormSubmission();
-  const primaryColor = form.theme?.button_color ?? '#4f46e5';
+  const theme = normalizeTheme(form.theme);
+  const primaryColor = theme.primaryColor;
 
-  if (!form.settings.show_progress_bar) return null;
+  const formRecord = form as unknown as Record<string, unknown>;
+  if (formRecord.show_progress_bar === false) return null;
 
   return (
     <div className="fixed left-0 right-0 top-0 z-50 h-1 bg-black/5">

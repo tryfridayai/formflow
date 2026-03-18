@@ -4,14 +4,17 @@ import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, PartyPopper } from 'lucide-react';
 import { useFormSubmission } from '@/lib/store/form-submission-context';
+import { normalizeTheme } from '@/lib/utils/theme';
 
 export function FormComplete() {
   const { form } = useFormSubmission();
-  const questionColor = form.theme?.question_color ?? '#ffffff';
-  const primaryColor = form.theme?.button_color ?? '#4f46e5';
-  const bgColor = form.theme?.background_color ?? '#1a1a2e';
+  const theme = normalizeTheme(form.theme);
+  const questionColor = theme.textColor;
+  const primaryColor = theme.primaryColor;
+  const bgColor = theme.backgroundColor;
 
-  const redirectUrl = form.settings.redirect_on_complete;
+  const formRecord = form as unknown as Record<string, unknown>;
+  const redirectUrl = (formRecord.redirect_url as string) || null;
   const [countdown, setCountdown] = useState(redirectUrl ? 5 : null);
 
   useEffect(() => {

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { CheckCircle2, ExternalLink } from 'lucide-react';
 import type { Question, EndScreenProperties } from '@/lib/types/form';
 import { useFormSubmission } from '@/lib/store/form-submission-context';
+import { normalizeTheme } from '@/lib/utils/theme';
 
 interface EndScreenProps {
   question: Question;
@@ -13,9 +14,10 @@ interface EndScreenProps {
 export function EndScreen({ question }: EndScreenProps) {
   const { form } = useFormSubmission();
   const config = question.properties.config as EndScreenProperties;
-  const questionColor = form.theme?.question_color ?? '#ffffff';
-  const primaryColor = form.theme?.button_color ?? '#4f46e5';
-  const buttonTextColor = form.theme?.button_text_color ?? '#ffffff';
+  const theme = normalizeTheme(form.theme);
+  const questionColor = theme.textColor;
+  const primaryColor = theme.primaryColor;
+  const buttonTextColor = '#ffffff';
 
   // Handle redirect
   useEffect(() => {

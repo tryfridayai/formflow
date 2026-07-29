@@ -44,7 +44,6 @@ function getBreadcrumbs(pathname: string): Breadcrumb[] {
     const segment = segments[i];
     path += `/${segment}`;
 
-    // Skip UUID-like segments in breadcrumb display but include in path
     const isUuid =
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
         segment
@@ -87,61 +86,44 @@ export function Topbar() {
   };
 
   return (
-    <header
-      className={cn(
-        'flex h-14 shrink-0 items-center justify-between border-b border-gray-200 bg-white px-6',
-        'dark:border-gray-800 dark:bg-gray-950'
-      )}
-    >
+    <header className="flex h-14 shrink-0 items-center justify-between border-b border-border bg-background px-6">
       {/* Breadcrumbs */}
-      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5">
-        {/* Spacer for mobile hamburger */}
+      <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm">
         <div className="w-10 lg:hidden" />
         {breadcrumbs.map((crumb, index) => (
           <React.Fragment key={index}>
             {index > 0 && (
-              <ChevronRight className="h-3.5 w-3.5 shrink-0 text-gray-400 dark:text-gray-500" />
+              <ChevronRight className="h-3.5 w-3.5 text-foreground-subtle" />
             )}
             {crumb.href ? (
               <Link
                 href={crumb.href}
-                className="text-sm text-gray-500 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+                className="text-foreground-muted transition-colors hover:text-foreground"
               >
                 {crumb.label}
               </Link>
             ) : (
-              <span className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                {crumb.label}
-              </span>
+              <span className="font-medium text-foreground">{crumb.label}</span>
             )}
           </React.Fragment>
         ))}
       </nav>
 
-      {/* Right side actions */}
+      {/* Right side */}
       <div className="flex items-center gap-2">
-        {/* Dark mode toggle */}
         <button
           type="button"
           onClick={toggleDarkMode}
-          className={cn(
-            'flex h-8 w-8 items-center justify-center rounded-lg text-gray-500 transition-colors duration-150',
-            'hover:bg-gray-100 hover:text-gray-700',
-            'dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200'
-          )}
-          aria-label="Toggle dark mode"
+          className="flex h-8 w-8 items-center justify-center rounded-md text-foreground-muted transition-colors hover:bg-surface-2 hover:text-foreground"
+          aria-label="Toggle theme"
         >
           <Sun className="h-4 w-4 dark:hidden" />
           <Moon className="hidden h-4 w-4 dark:block" />
         </button>
 
-        {/* User dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger
-            className={cn(
-              'flex items-center gap-2 rounded-lg px-2 py-1.5 transition-colors duration-150',
-              'hover:bg-gray-100 dark:hover:bg-gray-800'
-            )}
+            className="flex items-center gap-2 rounded-md px-2 py-1.5 transition-colors hover:bg-surface-2"
           >
             <Avatar
               name={userName}
@@ -151,12 +133,8 @@ export function Topbar() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
-              <p className="font-medium text-gray-900 dark:text-gray-100">
-                {userName}
-              </p>
-              <p className="mt-0.5 font-normal text-gray-500 dark:text-gray-400">
-                {userEmail}
-              </p>
+              <p className="font-medium text-foreground">{userName}</p>
+              <p className="mt-0.5 text-xs text-foreground-muted">{userEmail}</p>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem

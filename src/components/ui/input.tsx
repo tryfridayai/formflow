@@ -21,14 +21,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
         {label && (
           <label
             htmlFor={id}
-            className="text-xs font-medium text-gray-700 dark:text-gray-300"
+            className="text-xs font-medium text-foreground-muted"
           >
             {label}
           </label>
         )}
         <div className="relative">
           {icon && (
-            <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+            <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-foreground-subtle">
               {icon}
             </div>
           )}
@@ -37,16 +37,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             id={id}
             type={type}
             className={cn(
-              'flex h-9 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-900',
-              'placeholder:text-gray-400',
-              'transition-colors duration-150',
-              'focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:ring-offset-1',
+              'input flex h-9 w-full rounded-lg border border-border bg-input px-3 text-sm text-foreground',
+              'placeholder:text-foreground-subtle',
               'disabled:cursor-not-allowed disabled:opacity-50',
-              'dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100 dark:placeholder:text-gray-500',
-              'dark:focus:border-indigo-400',
               icon && 'pl-10',
               error &&
-                'border-red-500 focus:border-red-500 focus:ring-red-500/20 dark:border-red-500',
+                'border-destructive focus:border-destructive focus:ring-destructive/20',
               className
             )}
             aria-invalid={error ? 'true' : undefined}
@@ -55,7 +51,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           />
         </div>
         {error && (
-          <p id={errorId} className="text-xs text-red-600 dark:text-red-400" role="alert">
+          <p id={errorId} className="text-xs text-destructive" role="alert">
             {error}
           </p>
         )}

@@ -27,7 +27,7 @@ import type { Form, FormStatus } from '@/lib/types/form';
 
 const STATUS_MAP: Record<
   FormStatus,
-  { label: string; variant: 'default' | 'success' | 'danger' | 'warning' }
+  { label: string; variant: 'default' | 'success' | 'danger' | 'warning' | 'info' }
 > = {
   draft: { label: 'Draft', variant: 'default' },
   published: { label: 'Published', variant: 'success' },
@@ -101,26 +101,19 @@ export function FormCard({ form, onRefresh }: FormCardProps) {
   return (
     <div
       className={cn(
-        'group relative rounded-lg border border-gray-200 bg-white transition-all duration-200',
-        'hover:border-gray-300 hover:shadow-md hover:shadow-gray-100',
-        'dark:border-gray-800 dark:bg-gray-950',
-        'dark:hover:border-gray-700 dark:hover:shadow-gray-900/20',
+        'group relative rounded-lg border border-border bg-card transition-all duration-150',
+        'hover:border-border-hover hover:shadow-md',
         isDeleting && 'pointer-events-none opacity-50'
       )}
     >
-      {/* Card body - clickable to navigate */}
-      <Link
-        href={`/forms/${form.id}/edit`}
-        className="block px-5 pb-4 pt-5"
-      >
-        {/* Header row */}
+      <Link href={`/forms/${form.id}/edit`} className="block px-5 pb-4 pt-5">
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0 flex-1">
-            <h3 className="truncate text-sm font-semibold text-gray-900 dark:text-gray-100">
+            <h3 className="truncate text-[15px] font-semibold tracking-[-0.01em] text-foreground">
               {form.title}
             </h3>
             {form.description && (
-              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
+              <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-foreground-muted">
                 {form.description}
               </p>
             )}
@@ -130,8 +123,7 @@ export function FormCard({ form, onRefresh }: FormCardProps) {
           </Badge>
         </div>
 
-        {/* Metadata row */}
-        <div className="mt-4 flex items-center gap-4 text-xs text-gray-400 dark:text-gray-500">
+        <div className="mt-4 flex items-center gap-4 text-xs text-foreground-subtle">
           <span className="inline-flex items-center gap-1.5">
             <MessageSquare className="h-3.5 w-3.5" />
             {form.response_count} {form.response_count === 1 ? 'response' : 'responses'}
@@ -143,16 +135,13 @@ export function FormCard({ form, onRefresh }: FormCardProps) {
         </div>
       </Link>
 
-      {/* Kebab menu - positioned absolutely so it doesn't interfere with card link */}
       <div className="absolute right-3 top-3.5">
         <DropdownMenu>
           <DropdownMenuTrigger
             className={cn(
-              'flex h-7 w-7 items-center justify-center rounded-md text-gray-400 transition-colors duration-150',
-              'opacity-0 group-hover:opacity-100',
-              'hover:bg-gray-100 hover:text-gray-600',
-              'dark:hover:bg-gray-800 dark:hover:text-gray-300',
-              'focus-visible:opacity-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/20'
+              'flex h-7 w-7 items-center justify-center rounded-md text-foreground-subtle opacity-0 transition-all',
+              'group-hover:opacity-100 hover:bg-surface-2 hover:text-foreground',
+              'focus-visible:opacity-100 focus-visible:outline-none'
             )}
           >
             <MoreVertical className="h-4 w-4" />

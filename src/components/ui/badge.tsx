@@ -5,15 +5,15 @@ import { cn } from '@/lib/utils/cn';
 
 const variants = {
   default:
-    'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
+    'bg-surface-2 text-foreground-muted border border-border',
   success:
-    'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-400',
+    'bg-success/10 text-success border border-success/20',
   warning:
-    'bg-amber-50 text-amber-700 dark:bg-amber-950 dark:text-amber-400',
+    'bg-warning/10 text-warning border border-warning/20',
   danger:
-    'bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-400',
+    'bg-destructive/10 text-destructive border border-destructive/20',
   info:
-    'bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400',
+    'bg-primary/10 text-primary border border-primary/20',
 } as const;
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -24,8 +24,7 @@ function Badge({ className, variant = 'default', ...props }: BadgeProps) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-md px-2 py-0.5 text-xs font-medium',
-        'transition-colors duration-150',
+        'inline-flex items-center rounded-md px-2 py-0.5 text-[10px] font-medium tracking-[0.01em]',
         variants[variant],
         className
       )}

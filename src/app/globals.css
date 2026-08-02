@@ -4,126 +4,108 @@
 
 @layer base {
   :root {
-    /* Background & Surface */
+    /* Linear-inspired color system - refined, modern */
     --background: 0 0% 100%;
     --surface: 0 0% 98%;
-    --surface-hover: 0 0% 96%;
-    --surface-active: 0 0% 94%;
-
-    /* Foreground & Text */
+    --surface-2: 0 0% 96%;
+    --surface-3: 0 0% 94%;
+    
     --foreground: 0 0% 9%;
     --foreground-muted: 0 0% 45%;
     --foreground-subtle: 0 0% 64%;
-
-    /* Borders */
+    
     --border: 0 0% 90%;
-    --border-hover: 0 0% 80%;
-
-    /* Primary (indigo-inspired) */
+    --border-hover: 0 0% 82%;
+    
+    /* Primary accent - Linear purple/indigo */
     --primary: 238 76% 55%;
     --primary-hover: 238 76% 48%;
     --primary-foreground: 0 0% 100%;
-
-    /* Secondary */
+    
     --secondary: 0 0% 96%;
     --secondary-hover: 0 0% 90%;
     --secondary-foreground: 0 0% 9%;
-
-    /* Accent */
+    
     --accent: 238 76% 97%;
-    --accent-hover: 238 76% 94%;
     --accent-foreground: 238 76% 55%;
-
-    /* Destructive */
+    
     --destructive: 0 84% 60%;
-    --destructive-hover: 0 84% 52%;
     --destructive-foreground: 0 0% 100%;
-
-    /* Success */
+    
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
-
-    /* Warning */
+    
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
-
-    /* Input & Ring */
-    --input: 0 0% 90%;
+    
+    --input: 0 0% 96%;
     --ring: 238 76% 55%;
-
-    /* Radius */
+    
     --radius: 0.5rem;
-
-    /* Sidebar (for dashboard layout) */
+    
+    /* Sidebar */
     --sidebar: 0 0% 98%;
     --sidebar-foreground: 0 0% 30%;
     --sidebar-border: 0 0% 92%;
-    --sidebar-hover: 0 0% 94%;
-
+    
     /* Card */
     --card: 0 0% 100%;
     --card-foreground: 0 0% 9%;
     --card-border: 0 0% 92%;
+    
+    /* Shadows - subtle like Linear */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.04);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.06), 0 2px 4px -2px rgb(0 0 0 / 0.04);
   }
 
   .dark {
-    /* Background & Surface */
     --background: 0 0% 6%;
     --surface: 0 0% 9%;
-    --surface-hover: 0 0% 12%;
-    --surface-active: 0 0% 15%;
-
-    /* Foreground & Text */
+    --surface-2: 0 0% 11%;
+    --surface-3: 0 0% 14%;
+    
     --foreground: 0 0% 95%;
     --foreground-muted: 0 0% 60%;
-    --foreground-subtle: 0 0% 40%;
-
-    /* Borders */
+    --foreground-subtle: 0 0% 42%;
+    
     --border: 0 0% 18%;
-    --border-hover: 0 0% 28%;
-
-    /* Primary */
+    --border-hover: 0 0% 26%;
+    
     --primary: 238 76% 62%;
     --primary-hover: 238 76% 70%;
     --primary-foreground: 0 0% 100%;
-
-    /* Secondary */
+    
     --secondary: 0 0% 14%;
     --secondary-hover: 0 0% 20%;
     --secondary-foreground: 0 0% 95%;
-
-    /* Accent */
+    
     --accent: 238 40% 15%;
-    --accent-hover: 238 40% 20%;
     --accent-foreground: 238 76% 72%;
-
-    /* Destructive */
+    
     --destructive: 0 72% 51%;
-    --destructive-hover: 0 72% 60%;
     --destructive-foreground: 0 0% 100%;
-
-    /* Success */
+    
     --success: 142 71% 45%;
     --success-foreground: 0 0% 100%;
-
-    /* Warning */
+    
     --warning: 38 92% 50%;
     --warning-foreground: 0 0% 100%;
-
-    /* Input & Ring */
-    --input: 0 0% 18%;
+    
+    --input: 0 0% 14%;
     --ring: 238 76% 62%;
-
-    /* Sidebar */
+    
     --sidebar: 0 0% 8%;
     --sidebar-foreground: 0 0% 70%;
     --sidebar-border: 0 0% 14%;
-    --sidebar-hover: 0 0% 12%;
-
-    /* Card */
+    
     --card: 0 0% 9%;
     --card-foreground: 0 0% 95%;
     --card-border: 0 0% 16%;
+    
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.2);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.3), 0 1px 2px -1px rgb(0 0 0 / 0.2);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.3), 0 2px 4px -2px rgb(0 0 0 / 0.2);
   }
 }
 
@@ -135,35 +117,114 @@
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-feature-settings: "tnum", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Smooth scrolling for the form renderer */
-  html {
-    scroll-behavior: smooth;
+  /* Linear-style focus rings */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
   }
 
-  /* Custom scrollbar styling */
+  /* Better typography */
+  h1, h2, h3, h4 {
+    font-feature-settings: "tnum", "ss01";
+    letter-spacing: -0.01em;
+  }
+
+  /* Subtle scrollbar like Linear */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
-
   ::-webkit-scrollbar-track {
     background: transparent;
   }
-
   ::-webkit-scrollbar-thumb {
     background: hsl(var(--border));
     border-radius: 3px;
   }
-
   ::-webkit-scrollbar-thumb:hover {
     background: hsl(var(--border-hover));
+  }
+
+  /* Modern table styling */
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+}
+
+@layer components {
+  /* Linear-style card */
+  .card {
+    background-color: hsl(var(--card));
+    border: 1px solid hsl(var(--card-border));
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+
+  /* Modern button refinements */
+  .btn {
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn:hover {
+    transform: translateY(-0.5px);
+  }
+  .btn:active {
+    transform: translateY(0);
+  }
+
+  /* Clean input styling */
+  .input {
+    transition: border-color 0.1s ease, box-shadow 0.1s ease;
+  }
+  .input:focus {
+    border-color: hsl(var(--primary));
+    box-shadow: 0 0 0 3px hsl(var(--primary) / 0.08);
+  }
+
+  /* Sidebar nav items */
+  .nav-item {
+    transition: all 0.1s ease;
+  }
+  .nav-item:hover {
+    background-color: hsl(var(--surface-2));
+  }
+  .nav-item.active {
+    background-color: hsl(var(--surface-2));
+    color: hsl(var(--foreground));
+    font-weight: 500;
+  }
+
+  /* Form renderer polish */
+  .form-question {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Results table */
+  .results-table tr {
+    transition: background-color 0.1s ease;
+  }
+  .results-table tr:hover {
+    background-color: hsl(var(--surface-2));
   }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  
+  /* Linear-style subtle text */
+  .text-subtle {
+    color: hsl(var(--foreground-subtle));
+  }
+  
+  /* Modern divider */
+  .divider {
+    border-color: hsl(var(--border));
   }
 }

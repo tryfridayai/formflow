@@ -51,12 +51,12 @@ const NAV_ITEMS: NavItem[] = [
 function FormFlowLogo({ collapsed }: { collapsed?: boolean }) {
   return (
     <Link href="/dashboard" className="flex items-center gap-2.5">
-      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-indigo-600">
+      <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-primary">
         <svg
-          className="h-4.5 w-4.5 text-white"
+          className="h-4 w-4 text-primary-foreground"
           fill="none"
           viewBox="0 0 24 24"
-          strokeWidth={2}
+          strokeWidth={2.5}
           stroke="currentColor"
         >
           <path
@@ -67,7 +67,7 @@ function FormFlowLogo({ collapsed }: { collapsed?: boolean }) {
         </svg>
       </div>
       {!collapsed && (
-        <span className="text-base font-semibold text-white">FormFlow</span>
+        <span className="text-[15px] font-semibold tracking-[-0.01em] text-white">FormFlow</span>
       )}
     </Link>
   );
@@ -96,17 +96,14 @@ export function Sidebar() {
   const userEmail = user?.email || '';
 
   const sidebarContent = (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col bg-[#0A0A0A] dark:bg-[#0A0A0A]">
       {/* Logo */}
-      <div className="flex h-14 items-center px-4">
+      <div className="flex h-14 items-center border-b border-white/10 px-4">
         <FormFlowLogo />
       </div>
 
-      {/* Separator */}
-      <div className="mx-3 h-px bg-gray-800" />
-
       {/* Navigation */}
-      <nav className="flex-1 space-y-1 px-3 py-4">
+      <nav className="flex-1 space-y-0.5 px-2 py-3">
         {NAV_ITEMS.map((item) => {
           const active = isActive(item.href);
           return (
@@ -115,20 +112,13 @@ export function Sidebar() {
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                'group flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors duration-150',
+                'nav-item group flex items-center gap-2.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all',
                 active
-                  ? 'bg-gray-800 text-white'
-                  : 'text-gray-400 hover:bg-gray-900 hover:text-gray-200'
+                  ? 'bg-white/10 text-white'
+                  : 'text-white/60 hover:bg-white/5 hover:text-white/90'
               )}
             >
-              <span
-                className={cn(
-                  'transition-colors duration-150',
-                  active
-                    ? 'text-indigo-400'
-                    : 'text-gray-500 group-hover:text-gray-300'
-                )}
-              >
+              <span className={cn('transition-colors', active ? 'text-primary' : 'text-white/50 group-hover:text-white/70')}>
                 {item.icon}
               </span>
               {item.label}
@@ -137,16 +127,13 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Separator */}
-      <div className="mx-3 h-px bg-gray-800" />
-
       {/* User section */}
-      <div className="p-3">
+      <div className="border-t border-white/10 p-2">
         <DropdownMenu>
           <DropdownMenuTrigger
             className={cn(
-              'flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors duration-150',
-              'hover:bg-gray-900'
+              'flex w-full items-center gap-2.5 rounded-md px-2 py-2 text-left transition-colors',
+              'hover:bg-white/5'
             )}
           >
             <Avatar
@@ -155,10 +142,8 @@ export function Sidebar() {
               size="sm"
             />
             <div className="flex-1 overflow-hidden">
-              <p className="truncate text-sm font-medium text-gray-200">
-                {userName}
-              </p>
-              <p className="truncate text-xs text-gray-500">{userEmail}</p>
+              <p className="truncate text-sm font-medium text-white/90">{userName}</p>
+              <p className="truncate text-[11px] text-white/50">{userEmail}</p>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="top" className="w-56">
@@ -178,15 +163,11 @@ export function Sidebar() {
 
   return (
     <>
-      {/* Mobile toggle button */}
+      {/* Mobile toggle */}
       <button
         type="button"
         onClick={() => setMobileOpen(true)}
-        className={cn(
-          'fixed left-4 top-3.5 z-40 flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 shadow-sm lg:hidden',
-          'hover:bg-gray-50 active:bg-gray-100',
-          'dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
-        )}
+        className="fixed left-4 top-3.5 z-40 flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-[#0A0A0A] text-white/70 lg:hidden"
         aria-label="Open navigation"
       >
         <Menu className="h-4 w-4" />
@@ -195,7 +176,7 @@ export function Sidebar() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
           aria-hidden="true"
         />
@@ -204,14 +185,14 @@ export function Sidebar() {
       {/* Mobile sidebar */}
       <aside
         className={cn(
-          'fixed inset-y-0 left-0 z-50 w-64 bg-gray-950 transition-transform duration-200 ease-in-out lg:hidden',
+          'fixed inset-y-0 left-0 z-50 w-64 border-r border-white/10 transition-transform duration-200 ease-in-out lg:hidden',
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         )}
       >
         <button
           type="button"
           onClick={() => setMobileOpen(false)}
-          className="absolute right-3 top-3.5 flex h-8 w-8 items-center justify-center rounded-md text-gray-500 hover:text-gray-300"
+          className="absolute right-3 top-3.5 flex h-8 w-8 items-center justify-center rounded-md text-white/50 hover:text-white/80"
           aria-label="Close navigation"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -220,7 +201,7 @@ export function Sidebar() {
       </aside>
 
       {/* Desktop sidebar */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 bg-gray-950 lg:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 border-r border-white/10 bg-[#0A0A0A] lg:block">
         {sidebarContent}
       </aside>
     </>

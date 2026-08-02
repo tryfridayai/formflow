@@ -14,25 +14,13 @@ interface StatCardProps {
 
 function StatCard({ icon, label, value, iconColor }: StatCardProps) {
   return (
-    <div
-      className={cn(
-        'flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-5 py-4',
-        'dark:border-gray-800 dark:bg-gray-950'
-      )}
-    >
-      <div
-        className={cn(
-          'flex h-10 w-10 shrink-0 items-center justify-center rounded-lg',
-          iconColor
-        )}
-      >
+    <div className="card flex items-center gap-4 px-5 py-4">
+      <div className={cn('flex h-10 w-10 shrink-0 items-center justify-center rounded-lg', iconColor)}>
         {icon}
       </div>
       <div>
-        <p className="text-xs font-medium text-gray-500 dark:text-gray-400">
-          {label}
-        </p>
-        <p className="text-2xl font-semibold tabular-nums text-gray-900 dark:text-gray-100">
+        <p className="text-xs font-medium text-foreground-muted">{label}</p>
+        <p className="text-2xl font-semibold tabular-nums tracking-[-0.02em] text-foreground">
           {value}
         </p>
       </div>
@@ -42,12 +30,7 @@ function StatCard({ icon, label, value, iconColor }: StatCardProps) {
 
 function StatCardSkeleton() {
   return (
-    <div
-      className={cn(
-        'flex items-center gap-4 rounded-lg border border-gray-200 bg-white px-5 py-4',
-        'dark:border-gray-800 dark:bg-gray-950'
-      )}
-    >
+    <div className="card flex items-center gap-4 px-5 py-4">
       <Skeleton className="h-10 w-10 rounded-lg" />
       <div className="space-y-2">
         <Skeleton className="h-3 w-20" />
@@ -83,24 +66,22 @@ export function DashboardStats({
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       <StatCard
-        icon={<FileText className="h-5 w-5 text-indigo-600 dark:text-indigo-400" />}
+        icon={<FileText className="h-5 w-5 text-primary" />}
         label="Total Forms"
         value={totalForms}
-        iconColor="bg-indigo-50 dark:bg-indigo-950"
+        iconColor="bg-accent"
       />
       <StatCard
-        icon={
-          <MessageSquare className="h-5 w-5 text-emerald-600 dark:text-emerald-400" />
-        }
+        icon={<MessageSquare className="h-5 w-5 text-success" />}
         label="Total Responses"
         value={totalResponses}
-        iconColor="bg-emerald-50 dark:bg-emerald-950"
+        iconColor="bg-success/10"
       />
       <StatCard
-        icon={<Radio className="h-5 w-5 text-amber-600 dark:text-amber-400" />}
+        icon={<Radio className="h-5 w-5 text-warning" />}
         label="Active Forms"
         value={activeForms}
-        iconColor="bg-amber-50 dark:bg-amber-950"
+        iconColor="bg-warning/10"
       />
     </div>
   );
